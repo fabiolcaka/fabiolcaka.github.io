@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Fabiol Caka - Software Engineering Student</title>
     <style>
+        /* Base Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Animated Background */
         body {
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%);
             color: #e5e7eb;
             line-height: 1.5;
             scroll-behavior: smooth;
+            
+            /* Gradient Animation */
+            background: linear-gradient(-45deg, #0f0c29, #1a1a2e, #16213e, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
@@ -26,40 +38,38 @@
             padding: 0 24px;
         }
 
+        /* Sticky Header */
         header {
-            padding: 20px 0;
+            padding: 16px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            background-color: rgba(15, 12, 41, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: rgba(15, 12, 41, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
         }
 
         .logo a {
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1.5rem;
             text-decoration: none;
             background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
-            background-clip: text;
             -webkit-background-clip: text;
+            background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
         }
 
         .nav-links {
             display: flex;
-            gap: 28px;
+            gap: 24px;
             list-style: none;
-            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -67,466 +77,151 @@
             color: #9ca3af;
             font-weight: 500;
             transition: color 0.2s;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
-        .nav-links a:hover {
-            color: #60a5fa;
-        }
+        .nav-links a:hover { color: #60a5fa; }
 
+        /* Buttons */
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             color: white;
-            padding: 10px 24px;
+            padding: 12px 28px;
             border-radius: 40px;
             text-decoration: none;
-            font-weight: 500;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            text-align: center;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
         }
 
+        /* Hero Section */
         .hero {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
             align-items: center;
-            justify-content: space-between;
             gap: 40px;
-            padding: 60px 0 48px;
-        }
-
-        .hero-content {
-            flex: 1;
-            min-width: 260px;
+            padding: 80px 0;
         }
 
         .hero-badge {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            background: rgba(59, 130, 246, 0.1);
             color: #60a5fa;
             font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
+            margin-bottom: 20px;
             display: inline-block;
-            padding: 4px 12px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 0.8rem;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .hero-content h1 {
-            font-size: 3.2rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff 0%, #60a5fa 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: #ffffff;
         }
 
         .hero-content h1 span {
             background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
-            background-clip: text;
             -webkit-background-clip: text;
+            background-clip: text;
             color: transparent;
-        }
-
-        .hero-title {
-            font-size: 1.2rem;
-            color: #9ca3af;
-            margin-bottom: 20px;
-            font-weight: 500;
         }
 
         .hero-desc {
             color: #9ca3af;
-            margin-bottom: 28px;
-            max-width: 500px;
-            font-size: 0.95rem;
-        }
-
-        .hero-image {
-            flex: 0.8;
-            display: flex;
-            justify-content: center;
+            margin-bottom: 32px;
+            max-width: 540px;
+            font-size: 1.1rem;
         }
 
         .hero-image img {
             width: 100%;
-            max-width: 300px;
-            border-radius: 28px;
-            object-fit: cover;
-            aspect-ratio: 1 / 1;
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5);
-            border: 3px solid rgba(96, 165, 250, 0.3);
+            max-width: 350px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Organic shape */
+            border: 4px solid rgba(96, 165, 250, 0.3);
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+        }
+
+        /* Generic Section Styling */
+        section { padding: 80px 0; }
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-title::after {
+            content: "";
+            height: 1px;
+            flex-grow: 1;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Cards and Items */
+        .exp-item, .about-text, .about-card, .skills-category, .contact-info {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 30px;
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .hero-image img:hover {
-            transform: scale(1.02);
-            border-color: #60a5fa;
-        }
-
-        section {
-            padding: 60px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 32px;
-            letter-spacing: -0.01em;
-            background: linear-gradient(135deg, #ffffff 0%, #60a5fa 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .about-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 32px;
-            justify-content: space-between;
-        }
-
-        .about-text {
-            flex: 2;
-            background: rgba(26, 26, 46, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 28px;
-            border-radius: 24px;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            font-size: 0.95rem;
-        }
-
-        .about-card {
-            flex: 1;
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .about-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.4);
-            border-color: rgba(96, 165, 250, 0.4);
-        }
-
-        .about-card p {
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-
-        .highlight {
-            font-weight: 600;
-            color: #60a5fa;
-        }
-
-        .exp-item {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 28px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
         .exp-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
-            border-color: rgba(96, 165, 250, 0.4);
-        }
-
-        .exp-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            gap: 10px;
-        }
-
-        .exp-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffffff 0%, #60a5fa 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .exp-company {
-            color: #60a5fa;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .exp-date {
-            color: #6b7280;
-            font-size: 0.85rem;
-        }
-
-        .exp-item p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0 10px;
+            border-color: rgba(96, 165, 250, 0.5);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .skill-tag {
-            background: rgba(31, 41, 55, 0.8);
-            padding: 5px 14px;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 16px;
+            border-radius: 50px;
             font-size: 0.85rem;
-            font-weight: 500;
-            color: #e5e7eb;
-            transition: all 0.2s;
-            border: 1px solid rgba(96, 165, 250, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .skill-tag:hover {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-            border-color: transparent;
-        }
-
-        .skills-category {
-            margin-bottom: 32px;
-            background: rgba(26, 26, 46, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 24px;
-            border-radius: 24px;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-        }
-
-        .skills-category h3 {
-            font-size: 1.2rem;
-            margin-bottom: 16px;
-            font-weight: 600;
-            color: #e5e7eb;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 32px;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-        }
-
-        .contact-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.4);
-            border-color: rgba(96, 165, 250, 0.4);
-        }
-
-        .contact-details p {
-            margin: 14px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-details a {
-            color: #60a5fa;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-            word-break: break-all;
-        }
-
-        .contact-details a:hover {
-            color: #a78bfa;
-            text-decoration: underline;
-        }
-
-        .game-highlight {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: inline-block;
-            font-size: 0.85rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 32px 0;
-            color: #6b7280;
-            font-size: 0.8rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            header {
-                padding: 16px 0;
-            }
-
-            .logo a {
-                font-size: 1.3rem;
-            }
-
-            .nav-links {
-                gap: 18px;
-            }
-
-            .nav-links a {
-                font-size: 0.85rem;
-            }
-
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 992px) {
             .hero {
-                flex-direction: column-reverse;
+                grid-template-columns: 1fr;
                 text-align: center;
-                padding: 40px 0 32px;
-                gap: 32px;
+                padding: 40px 0;
             }
-
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero-title {
-                font-size: 1rem;
-            }
-
-            .hero-desc {
-                font-size: 0.9rem;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-image img {
-                max-width: 240px;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-                text-align: center;
-            }
-
-            .about-grid {
-                flex-direction: column;
-                gap: 24px;
-            }
-
-            .about-text {
-                padding: 20px;
-                text-align: center;
-            }
-
-            .about-card {
-                text-align: center;
-            }
-
-            .exp-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .exp-title {
-                font-size: 1.15rem;
-            }
-
-            .exp-item {
-                padding: 20px;
-                text-align: center;
-            }
-
-            .exp-item p {
-                text-align: left;
-            }
-
-            .skills-list {
-                justify-content: center;
-            }
-
-            .skills-category {
-                padding: 20px;
-                text-align: center;
-            }
-
-            .skills-category h3 {
-                font-size: 1.1rem;
-            }
-
-            .contact-info {
-                flex-direction: column;
-                text-align: center;
-                padding: 24px;
-            }
-
-            .contact-details p {
-                justify-content: center;
-            }
-
-            .contact-details a {
-                word-break: break-word;
-            }
-
-            .btn {
-                padding: 8px 20px;
-                font-size: 0.85rem;
-            }
+            .hero-image { order: -1; }
+            .hero-desc { margin: 0 auto 32px; }
+            .hero-image img { max-width: 280px; }
         }
 
-        /* Small phones */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Hide links for clean mobile look, or you could add a burger menu */
+            .section-title { font-size: 1.6rem; }
+            .about-grid { display: flex; flex-direction: column; gap: 20px; }
+            .contact-info { flex-direction: column; text-align: center; }
+            section { padding: 50px 0; }
+        }
+
         @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .hero-content h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero-image img {
-                max-width: 200px;
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-
-            .skill-tag {
-                font-size: 0.75rem;
-                padding: 4px 10px;
-            }
+            .container { padding: 0 16px; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .exp-header { flex-direction: column; gap: 4px; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
@@ -541,141 +236,99 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <a href="mailto:fabjolcaka462@gmail.com" class="btn" style="padding: 8px 20px; font-size: 0.8rem;">Hire Me</a>
         </nav>
     </div>
 </header>
 
 <main>
     <div class="container">
-        <!-- Hero section -->
         <div class="hero">
             <div class="hero-content">
-                <div class="hero-badge">Available for Internships & Junior Roles</div>
+                <div class="hero-badge">Available for Internships</div>
                 <h1>Hello, I'm <span>Fabiol Caka</span></h1>
-                <div class="hero-title">Software Engineering Student</div>
-                <p class="hero-desc">19 years old • passionate about backend systems, game development, and building efficient applications from the ground up.</p>
-                <a href="#contact" class="btn">Get in touch →</a>
+                <p class="hero-desc">19-year-old Software Engineering student at University of Essex. I build efficient backend systems and interactive games from the ground up.</p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="#contact" class="btn">Get in touch →</a>
+                    <a href="#experience" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">View Projects</a>
+                </div>
             </div>
             <div class="hero-image">
-                <img src="https://fabiolck.com/IMg.JPG" alt="Fabiol Caka">
+                <img src="IMg.JPG" alt="Fabiol Caka">
             </div>
         </div>
-
-        <!-- About Section -->
+ 
         <section id="about">
-            <h2 class="section-title">About</h2>
-            <div class="about-grid">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
                 <div class="about-text">
-                    <p style="margin-bottom: 16px;">I'm a 19-year-old Software Engineer based in <strong style="color: #60a5fa;">Athens, Greece</strong>. I have a strong passion for writing clean, efficient code and solving complex problems through software.</p>
-                    <p>Currently in my <strong style="color: #60a5fa;">1st year of software engineering studies</strong> at the University of Essex, I've been learning and building projects that challenge me to think critically and creatively. I believe in continuous learning and building things that make a difference.</p>
+                    <p style="margin-bottom: 16px;">Based in <strong style="color: #60a5fa;">Athens, Greece</strong>, I focus on writing clean, scalable code. I'm currently in my first year, deeply immersed in understanding how to bridge the gap between complex algorithms and user-friendly applications.</p>
+                    <p>I believe in "learning by doing," which led me to develop my own game engines and backend REST APIs early in my journey.</p>
                 </div>
                 <div class="about-card">
-                    <p><span class="highlight">Student:</span> University of Essex (1st year)</p>
-                    <p><span class="highlight">Location:</span> Athens, Greece</p>
-                    <p><span class="highlight">Age:</span> 19 years old</p>
-                    <p><span class="highlight">Focus:</span> Backend Development & Game Development</p>
+                    <p style="margin-bottom: 10px;"><span style="color:#60a5fa">📍</span> Athens, Greece</p>
+                    <p style="margin-bottom: 10px;"><span style="color:#60a5fa">🎓</span> Uni of Essex</p>
+                    <p><span style="color:#60a5fa">🎯</span> Backend / Games</p>
                 </div>
             </div>
         </section>
 
-        <!-- Experience Section -->
         <section id="experience">
-            <h2 class="section-title">Experience & Learning Journey</h2>
-            <div class="exp-item">
-                <div class="exp-header">
-                    <div><span class="exp-title">Software Engineering Student</span> <span class="exp-company">· 1 Year of Learning</span></div>
-                    <div class="exp-date">2025 – Present</div>
+            <h2 class="section-title">Journey</h2>
+            <div class="exp-item" style="margin-bottom: 24px;">
+                <div class="exp-header" style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <h3 style="color: #fff;">Game Developer (Score.4)</h3>
+                    <span style="color: #60a5fa;">2025 - 2026</span>
                 </div>
-                <p>Dedicated 1 year to studying software engineering fundamentals, including data structures, algorithms, database design, and web development. Built multiple projects applying Golang, Java, Python, and MySQL in real-world scenarios.</p>
-                <div class="skills-list">
-                    <span class="skill-tag">Golang</span>
+                <p style="margin-bottom: 20px;">Developed a Java-based interactive game focusing on OOP principles and real-time state management.</p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                     <span class="skill-tag">Java</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">MySQL</span>
-                    <span class="skill-tag">HTML/CSS</span>
-                </div>
-            </div>
-            <div class="exp-item">
-                <div class="exp-header">
-                    <div><span class="exp-title">Game Developer</span> <span class="exp-company">· Created "Score.4"</span></div>
-                    <div class="exp-date">2025 – 2026</div>
-                </div>
-                <p>Designed and developed <strong class="game-highlight">Score.4</strong> — a fully functional game using <strong>Java</strong> that showcases my programming skills and creativity. Implemented game logic, scoring system, and interactive mechanics. This project helped me understand object-oriented programming, real-time user interaction, and state management.</p>
-                <div class="skills-list">
-                    <span class="skill-tag">Java</span>
-                    <span class="skill-tag">Game Logic</span>
-                    <span class="skill-tag">Interactive UI</span>
-                    <span class="skill-tag">Problem Solving</span>
-                    <span class="skill-tag">OOP Design</span>
+                    <span class="skill-tag">OOP</span>
+                    <span class="skill-tag">Logic Design</span>
                 </div>
             </div>
         </section>
 
-        <!-- Skills Section -->
         <section id="skills">
-            <h2 class="section-title">Technical Skills</h2>
-            
-            <div class="skills-category">
-                <h3>Programming Languages</h3>
-                <div class="skills-list">
-                    <span class="skill-tag">Golang</span>
-                    <span class="skill-tag">Java</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">HTML5</span>
-                    <span class="skill-tag">CSS3</span>
-                    <span class="skill-tag">SQL</span>
+            <h2 class="section-title">Tech Stack</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div class="skills-category">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem; color: #60a5fa;">Languages</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="skill-tag">Golang</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">SQL</span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="skills-category">
-                <h3>Databases</h3>
-                <div class="skills-list">
-                    <span class="skill-tag">MySQL</span>
-                    <span class="skill-tag">PostgreSQL (Basics)</span>
-                </div>
-            </div>
-
-            <div class="skills-category">
-                <h3>Frameworks & Tools</h3>
-                <div class="skills-list">
-                    <span class="skill-tag">Spring Boot</span>
-                    <span class="skill-tag">Gin</span>
-                    <span class="skill-tag">Flask</span>
-                    <span class="skill-tag">Git/GitHub</span>
-                    <span class="skill-tag">REST APIs</span>
-                </div>
-            </div>
-
-            <div class="skills-category">
-                <h3>Game Development</h3>
-                <div class="skills-list">
-                    <span class="skill-tag">Java (Score.4)</span>
-                    <span class="skill-tag">Game Logic Design</span>
-                    <span class="skill-tag">OOP Principles</span>
+                <div class="skills-category">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem; color: #a78bfa;">Tools</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Gin</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Docker</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact">
-            <h2 class="section-title">Let's Connect</h2>
             <div class="contact-info">
-                <div class="contact-details">
-                    <p>Email: <a href="mailto:fabjolcaka462@gmail.com">fabjolcaka462@gmail.com</a></p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/in/fabjol-caka-15b57a400/" target="_blank">linkedin.com/in/fabjol-caka-15b57a400</a></p>
-                    <p>Phone: <a href="tel:+306945719657">+30 694 571 9657</a></p>
+                <div style="flex: 1;">
+                    <h2 style="font-size: 2rem; margin-bottom: 10px;">Let's work together</h2>
+                    <p style="color: #9ca3af;">Currently looking for Summer 2026 internships.</p>
                 </div>
-                <div>
-                    <p style="margin-bottom: 12px;">Open to internships, junior developer roles, or tech conversations — feel free to reach out.</p>
-                    <a href="mailto:fabjolcaka462@gmail.com" class="btn">Send a message</a>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="mailto:fabjolcaka462@gmail.com" style="color: #fff; text-decoration: none; font-weight: 600;">fabjolcaka462@gmail.com</a>
+                    <a href="tel:+306945719657" style="color: #9ca3af; text-decoration: none;">+30 694 571 9657</a>
                 </div>
             </div>
         </section>
     </div>
-    <footer>
-        <div class="container">
-            <p>© 2025 Fabiol Caka • 1st Year Software Engineering Student • Based in Athens, Greece</p>
-        </div>
+
+    <footer style="padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+        <p style="font-size: 0.8rem; color: #6b7280;">© 2026 Fabiol Caka • Athens, GR</p>
     </footer>
 </main>
 </body>
