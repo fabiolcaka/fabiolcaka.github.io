@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fabjol Caka | Software Engineer & Full-Stack Developer</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
+  <meta name="description" content="Portfolio of Fabjol Caka - Software Engineering student at University of Essex, Full-Stack Developer, and Systems builder." />
+
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -21,16 +23,15 @@
             mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            dark: {
-              base: '#090a0f',
-              card: '#12131a',
-              border: 'rgba(255, 255, 255, 0.08)',
-              subtle: '#1a1b26'
+            brand: {
+              50: '#f0fdf4',
+              500: '#22c55e',
+              600: '#16a34a',
             },
             accent: {
+              cyan: '#38bdf8',
+              violet: '#a855f7',
               emerald: '#10b981',
-              blue: '#3b82f6',
-              violet: '#8b5cf6'
             }
           }
         }
@@ -39,513 +40,624 @@
   </script>
 
   <style>
-    body {
-      background-color: #090a0f;
-      color: #e2e8f0;
-      overflow-x: hidden;
-    }
-    .grid-bg {
-      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    .glow-radial {
-      background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12), transparent 70%);
+    /* Custom glow & glass effects */
+    .glass-nav {
+      background: rgba(10, 12, 18, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glass-card {
-      background: linear-gradient(135deg, rgba(18, 19, 26, 0.85) 0%, rgba(14, 15, 20, 0.75) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(16px);
+      background: rgba(17, 24, 39, 0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-card:hover {
-      border-color: rgba(255, 255, 255, 0.18);
-      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.15);
     }
-    .tag-badge {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .ambient-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Toast animation */
+    @keyframes toastIn {
+      from { transform: translate(-50%, 20px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+    .toast-anim {
+      animation: toastIn 0.3s ease-out forwards;
     }
   </style>
 </head>
-<body class="font-sans antialiased relative min-h-screen">
+<body class="bg-[#090b10] text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 antialiased overflow-x-hidden relative min-h-screen">
 
-  <!-- Ambient Glow & Background Grid -->
-  <div class="fixed inset-0 grid-bg pointer-events-none -z-10"></div>
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] glow-radial pointer-events-none -z-10"></div>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow top-0 left-1/4 bg-blue-600"></div>
+  <div class="ambient-glow top-1/3 right-10 bg-purple-600"></div>
+  <div class="ambient-glow bottom-1/4 left-10 bg-emerald-600"></div>
 
-  <!-- Toast Notification System -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
-    <div class="glass-card px-4 py-3 rounded-xl flex items-center gap-3 border border-emerald-500/30 text-emerald-400 text-sm font-medium shadow-2xl">
-      <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-      <span id="toast-message">Email copied to clipboard!</span>
-    </div>
-  </div>
-
-  <!-- Navigation -->
-  <header class="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-[#090a0f]/80 border-b border-white/5">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-mono text-sm">FC</span>
-        <span>Fabjol Caka</span>
+  <!-- NAVIGATION -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3 group">
+        <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-mono font-bold text-lg shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+          FC
+        </span>
+        <span class="font-bold text-lg tracking-tight text-white group-hover:text-cyan-400 transition-colors">
+          Fabjol Caka<span class="text-cyan-400">.</span>
+        </span>
       </a>
 
-      <!-- Desktop Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm text-zinc-400 font-medium">
-        <a href="#about" class="hover:text-white transition-colors">About</a>
-        <a href="#projects" class="hover:text-white transition-colors">Projects</a>
-        <a href="#skills" class="hover:text-white transition-colors">Skills</a>
-        <a href="#experience" class="hover:text-white transition-colors">Experience</a>
-        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+        <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
+        <a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a>
+        <a href="#skills" class="hover:text-cyan-400 transition-colors">Stack</a>
+        <a href="#agency" class="hover:text-purple-400 transition-colors flex items-center gap-1.5 text-slate-300">
+          <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+          Agency
+        </a>
+        <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
       </nav>
 
-      <!-- Actions -->
-      <div class="hidden sm:flex items-center gap-3">
-        <a href="https://github.com/fabiolcaka" target="_blank" rel="noreferrer" class="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/fabjolcaka/" target="_blank" rel="noreferrer" class="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-        </a>
-        <a href="#contact" class="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold tracking-wide transition shadow-lg shadow-blue-500/20">
+      <!-- Quick Action CTA -->
+      <div class="hidden sm:flex items-center gap-4">
+        <a href="#contact" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/15 border border-white/15 text-white transition-all hover:scale-[1.02] shadow-sm">
           Get in Touch
         </a>
       </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2" aria-label="Toggle Navigation">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#0c0f17]/95 backdrop-blur-xl px-6 py-6 space-y-4">
+      <a href="#about" class="block text-slate-300 hover:text-cyan-400 text-base font-medium py-1">About</a>
+      <a href="#projects" class="block text-slate-300 hover:text-cyan-400 text-base font-medium py-1">Projects</a>
+      <a href="#skills" class="block text-slate-300 hover:text-cyan-400 text-base font-medium py-1">Tech Stack</a>
+      <a href="#agency" class="block text-purple-400 text-base font-medium py-1">AI Agency</a>
+      <a href="#contact" class="block text-slate-300 hover:text-cyan-400 text-base font-medium py-1">Contact</a>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-28">
-
-    <!-- Hero Section -->
-    <section class="grid lg:grid-cols-12 gap-12 items-center">
+  <!-- HERO SECTION -->
+  <section id="hero" class="relative z-10 pt-36 pb-20 md:pt-44 md:pb-32 px-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
       
-      <!-- Left Content Column -->
-      <div class="lg:col-span-7 space-y-6">
-        <!-- Status Badge -->
-        <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-xs font-medium">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Available for Internships &amp; Junior Software Roles
+      <!-- Left Column: Intro & Bio -->
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+        
+        <!-- Live Status Pill -->
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-mono font-medium tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Available for New Projects & Roles</span>
         </div>
 
-        <!-- Headline -->
-        <div class="space-y-4">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
-            Architecting robust software &amp; modern web applications.
-          </h1>
-          <p class="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-xl">
-            Hi, I'm <span class="text-white font-semibold">Fabjol Caka</span>. Software Engineering student at the <span class="text-zinc-200 font-medium">University of Essex</span> (Year 2) based in <span class="text-zinc-200 font-medium">Athens, Greece</span>. Engineering dependable backend logic in Java and responsive frontend products for real-world businesses.
-          </p>
-        </div>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          Engineering software <br class="hidden sm:block"/>
+          with <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">clean code</span> & precision.
+        </h1>
 
-        <!-- Hero Actions -->
-        <div class="flex flex-wrap items-center gap-4 pt-2">
-          <a href="#projects" class="px-6 py-3 rounded-xl bg-white text-zinc-950 font-semibold text-sm hover:bg-zinc-200 transition shadow-lg flex items-center gap-2">
-            <span>View Projects</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+        <p class="text-slate-400 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+          Hi, I'm <strong class="text-slate-100 font-semibold">Fabjol Caka</strong>. Software Engineering student at the <span class="text-slate-200">University of Essex</span> (BSc Hons). I build full-stack web applications, scalable automation systems, and rock-solid OOP architectures.
+        </p>
+
+        <!-- CTAs & Contact shortcuts -->
+        <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+          <a href="#projects" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm transition-all shadow-lg shadow-cyan-500/20 hover:scale-[1.02]">
+            View Selected Projects
           </a>
-          <button onclick="copyEmail()" class="px-6 py-3 rounded-xl glass-card text-zinc-300 font-medium text-sm hover:text-white transition flex items-center gap-2">
-            <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-            <span>Copy Email</span>
+          <button onclick="copyEmailToClipboard()" class="px-6 py-3.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-200 font-semibold text-sm transition-all flex items-center gap-2 group">
+            <svg class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <span id="copy-email-label">fabjolcaka462@gmail.com</span>
+          </button>
+        </div>
+
+        <!-- Social Links & Profiles -->
+        <div class="pt-4 flex items-center justify-center lg:justify-start gap-5 text-slate-400">
+          <a href="https://github.com/fabiolcaka" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors flex items-center gap-2 text-sm font-medium">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub</span>
+          </a>
+          <span class="text-slate-700">•</span>
+          <a href="https://www.linkedin.com/in/fabjolcaka/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors flex items-center gap-2 text-sm font-medium">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+          <span class="text-slate-700">•</span>
+          <span class="text-xs font-mono text-slate-500">Athens, Greece</span>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Framed Portrait Card -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative group w-full max-w-[340px] sm:max-w-[380px]">
+          
+          <!-- Outer Decorative Glow -->
+          <div class="absolute -inset-1.5 bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 rounded-3xl blur-xl opacity-35 group-hover:opacity-60 transition duration-700 group-hover:duration-300"></div>
+          
+          <!-- Main Photo Container -->
+          <div class="relative overflow-hidden rounded-2xl border border-white/15 bg-slate-900/90 shadow-2xl aspect-[4/5] flex items-center justify-center">
+
+            <!-- ======================================================== -->
+            <!-- [1] ΕΔΩ ΒΑΖΕΙΣ ΤΗ ΔΙΚΗ ΣΟΥ ΦΩΤΟΓΡΑΦΙΑ                     -->
+            <!-- ======================================================== -->
+            <!--
+                ΟΔΗΓΙΕΣ:
+                1. Αν έχεις το αρχείο στον ίδιο φάκελο με το index.html,
+                   γράψε: src="avatar.jpg" (ή όπως το έχεις ονομάσει).
+                2. Αν είναι σε φάκελο: src="images/avatar.jpg".
+                3. Αν είναι link στο ίντερνετ: src="https://.../photo.jpg".
+            -->
+            <img 
+              id="hero-profile-img"
+              src="IMG.JPG" 
+              alt="Fabjol Caka" 
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+              onerror="document.getElementById('photo-placeholder').classList.remove('hidden'); this.style.display='none';"
+            />
+            <!-- ======================================================== -->
+
+            <!-- Fallback Tech Placeholder (Εμφανίζεται μόνο αν δεν βρεθεί η εικόνα) -->
+            <div id="photo-placeholder" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-900/95 text-slate-400 p-6 text-center">
+              <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-cyan-400">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <p class="font-mono text-xs text-slate-300 font-semibold uppercase tracking-wider mb-1">Upload Photo</p>
+              <p class="text-[11px] text-slate-500 leading-normal">Place <code class="text-cyan-400">avatar.jpg</code> alongside <code class="text-slate-300">index.html</code></p>
+            </div>
+
+            <!-- Subtle Card Overlay Badge -->
+            <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10 flex items-center justify-between">
+              <div>
+                <p class="text-xs font-semibold text-white tracking-wide">Fabjol Caka</p>
+                <p class="text-[11px] font-mono text-cyan-400">Software Engineer</p>
+              </div>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50"></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT & EDUCATION SECTION -->
+  <section id="about" class="py-20 px-6 relative z-10 border-t border-white/5 bg-[#0b0e14]/50">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="mb-12">
+        <h2 class="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase mb-2">// Background & Academics</h2>
+        <h3 class="text-3xl font-extrabold text-white">About Me</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        
+        <!-- Bio Card -->
+        <div class="md:col-span-7 glass-card rounded-2xl p-8 space-y-5">
+          <h4 class="text-lg font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            Engineering with Purpose
+          </h4>
+          <p class="text-slate-400 leading-relaxed text-sm">
+            I am a Software Engineering student focused on building robust, performant software. My work spans from desktop architecture and database design in <span class="text-slate-200">Java & MySQL</span> to modern web interfaces built with <span class="text-slate-200">TypeScript, Next.js, and Tailwind CSS</span>.
+          </p>
+          <p class="text-slate-400 leading-relaxed text-sm">
+            I enjoy transforming manual business operations into automated digital tools, writing clean OOP structures, and crafting interfaces that are intuitive and fast.
+          </p>
+          
+          <div class="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-white/10">
+            <div>
+              <p class="text-xs text-slate-500 font-mono">LOCATION</p>
+              <p class="text-sm font-semibold text-slate-200">Athens, Greece</p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-500 font-mono">STATUS</p>
+              <p class="text-sm font-semibold text-emerald-400">Open to Roles</p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-500 font-mono">PASSION</p>
+              <p class="text-sm font-semibold text-slate-200">Full-Stack & Systems</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic Accreditation Card -->
+        <div class="md:col-span-5 glass-card rounded-2xl p-8 space-y-5 border-cyan-500/20">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">Undergraduate Degree</span>
+            <span class="text-xs font-mono text-slate-400">2024 – 2028</span>
+          </div>
+          <div>
+            <h4 class="text-xl font-bold text-white">BSc (Hons) Computing</h4>
+            <p class="text-sm text-cyan-300 font-medium">Software Development</p>
+            <p class="text-sm text-slate-400 mt-1">University of Essex</p>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Curriculum focusing on Software Architecture, Object-Oriented Programming (Java), Relational Database Management, Data Structures, and Modern Software Engineering methodologies.
+          </p>
+          <div class="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400 font-mono">
+            <span>Year of Study:</span>
+            <span class="text-white font-semibold">2nd Year (Expected 2028)</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS SHOWCASE SECTION -->
+  <section id="projects" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <h2 class="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase mb-2">// Featured Works</h2>
+          <h3 class="text-3xl font-extrabold text-white">Engineering Portfolio</h3>
+          <p class="text-slate-400 text-sm mt-1 max-w-md">Selected applications covering systems development, client-facing websites, and algorithmic logic.</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex items-center gap-2 p-1 bg-white/5 rounded-xl border border-white/10 w-fit">
+          <button onclick="filterProjects('all')" id="filter-all" class="px-4 py-2 text-xs font-semibold rounded-lg bg-cyan-500 text-white transition-all">
+            All (4)
+          </button>
+          <button onclick="filterProjects('commercial')" id="filter-commercial" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+            Commercial Web
+          </button>
+          <button onclick="filterProjects('systems')" id="filter-systems" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+            Systems & OOP
           </button>
         </div>
       </div>
 
-      <!-- Right Column: High-End Portrait Showcase -->
-      <div class="lg:col-span-5 flex justify-center lg:justify-end">
-        <div class="relative group">
-          <!-- Ambient Glow behind the photo -->
-          <div class="absolute -inset-1.5 bg-gradient-to-tr from-blue-600 to-emerald-500 rounded-3xl opacity-30 blur-xl group-hover:opacity-50 transition duration-500"></div>
-          
-          <!-- Outer Card -->
-          <div class="relative glass-card p-3 rounded-3xl border border-white/10 shadow-2xl overflow-hidden max-w-[320px] sm:max-w-[340px]">
-            <!-- Image frame -->
-            <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-zinc-900 border border-white/5">
-              <img 
-                id="hero-avatar"
-                src="IMG.JPG" 
-                alt="Fabjol Caka" 
-                class="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#090a0f]/90 via-transparent to-transparent opacity-80"></div>
-
-              <!-- Overlay info badge -->
-              <div class="absolute bottom-3 left-3 right-3 p-3 rounded-xl backdrop-blur-md bg-black/40 border border-white/10 flex items-center justify-between">
-                <div>
-                  <div class="text-xs font-bold text-white tracking-wide">Fabjol Caka</div>
-                  <div class="text-[11px] text-zinc-400 font-mono">BSc Computing '28</div>
-                </div>
-                <div class="flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-400">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Active
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- Quick Metrics Bar -->
-    <section class="grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-b border-white/5 py-8">
-      <div class="glass-card p-4 rounded-xl">
-        <div class="text-2xl font-bold text-white font-mono">BSc (Hons)</div>
-        <div class="text-xs text-zinc-500 font-medium mt-0.5">Essex '28 (Year 2)</div>
-      </div>
-      <div class="glass-card p-4 rounded-xl">
-        <div class="text-2xl font-bold text-white font-mono">4+</div>
-        <div class="text-xs text-zinc-500 font-medium mt-0.5">Built Projects</div>
-      </div>
-      <div class="glass-card p-4 rounded-xl">
-        <div class="text-2xl font-bold text-white font-mono">2+</div>
-        <div class="text-xs text-zinc-500 font-medium mt-0.5">Client Deployments</div>
-      </div>
-      <div class="glass-card p-4 rounded-xl">
-        <div class="text-2xl font-bold text-emerald-400 font-mono">Athens, GR</div>
-        <div class="text-xs text-zinc-500 font-medium mt-0.5">Base Location</div>
-      </div>
-    </section>
-
-    <!-- Engineering Philosophy / Pillars -->
-    <section id="about" class="space-y-8">
-      <div>
-        <h2 class="text-xs uppercase tracking-widest font-mono text-blue-400 font-semibold">Engineering Philosophy</h2>
-        <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">Core Pillars of Development</h3>
-      </div>
-
-      <div class="grid sm:grid-cols-3 gap-6">
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-mono font-bold">01</div>
-          <h4 class="text-lg font-semibold text-white">OOP & System Architecture</h4>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Strict adherence to clean code patterns, encapsulation, and modular class structures in Java and modern languages.
-          </p>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-mono font-bold">02</div>
-          <h4 class="text-lg font-semibold text-white">Data Modeling & Persistence</h4>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Relational database schemas designed with normalization, integrity constraints, and performant SQL CRUD operations.
-          </p>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <div class="w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 font-mono font-bold">03</div>
-          <h4 class="text-lg font-semibold text-white">Commercial Impact</h4>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Delivering clean, conversion-driven web solutions tailored to direct client specifications and high performance.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="space-y-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h2 class="text-xs uppercase tracking-widest font-mono text-blue-400 font-semibold">Showcase</h2>
-          <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">Featured Works</h3>
-        </div>
-
-        <!-- Filter Buttons -->
-        <div class="inline-flex p-1 rounded-xl bg-zinc-900 border border-white/5 text-xs font-medium">
-          <button onclick="filterProjects('all')" id="btn-all" class="px-3 py-1.5 rounded-lg bg-white/10 text-white">All</button>
-          <button onclick="filterProjects('client')" id="btn-client" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white">Commercial</button>
-          <button onclick="filterProjects('systems')" id="btn-systems" class="px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white">Systems & OOP</button>
-        </div>
-      </div>
-
-      <!-- Project Cards Grid -->
-      <div class="grid sm:grid-cols-2 gap-6">
+      <!-- Projects Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
         <!-- Project 1: School Secretariat App -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-6 project-card" data-category="systems">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">Desktop Software</span>
-              <span class="text-xs text-zinc-500">Academic Project</span>
+        <div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between" data-category="systems">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Desktop / Backend</span>
+              <span class="text-xs font-mono text-slate-500">Java • MySQL</span>
             </div>
-            <h4 class="text-xl font-bold text-white">School Secretariat Desktop System</h4>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              Desktop application engineered for school administration. Implements full CRUD operations for student enrollments, academic grades, and course scheduling. Backed by a normalized MySQL schema and an intuitive Java Swing GUI.
+            <h4 class="text-2xl font-bold text-white mb-2">School Secretariat Management</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              A comprehensive desktop administrative suite for academic institutions. Handles relational student profiles, course registrations, grading sheets, and teacher schedule allocations with full CRUD operations backed by a normalized MySQL relational database.
             </p>
           </div>
-          <div class="space-y-4">
-            <div class="flex flex-wrap gap-2">
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Java</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">MySQL</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Swing GUI</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">JDBC</span>
+          <div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/10 mb-6">
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Java Swing</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">MySQL DB</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">JDBC</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">CRUD Logic</span>
             </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
-              <span class="font-mono">MVC Pattern • CRUD Persistence</span>
-              <span class="text-blue-400 font-semibold">Completed</span>
+            <div class="flex items-center gap-4">
+              <a href="https://github.com/fabiolcaka" target="_blank" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
+                <span>View on GitHub</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
             </div>
           </div>
         </div>
 
         <!-- Project 2: Mount Business Website -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-6 project-card" data-category="client">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Client Production</span>
-              <span class="text-xs text-zinc-500">Commercial Client</span>
+        <div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between" data-category="commercial">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Client Production</span>
+              <span class="text-xs font-mono text-slate-500">Commercial Web</span>
             </div>
-            <h4 class="text-xl font-bold text-white">Mount Business Website</h4>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              Commercial web platform built for a local installation and interior craftsmanship business (wardrobes, wooden doors, and kitchen installations). Focused on service presentation and client enquiry generation with optimized mobile layouts.
+            <h4 class="text-2xl font-bold text-white mb-2">Mount Business Client Platform</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              A bespoke commercial website for a professional craftsmanship business specializing in customized wardrobes, wooden doors, and modern kitchen installations. Focused on conversion rate optimization, high-fidelity gallery showcase, and direct customer inquiry acquisition.
             </p>
           </div>
-          <div class="space-y-4">
-            <div class="flex flex-wrap gap-2">
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">HTML5</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">CSS3</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Lead Generation</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Responsive UI</span>
+          <div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/10 mb-6">
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">HTML5 / Modern CSS</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Responsive UX</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Lead Generation</span>
             </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
-              <span class="font-mono">Production • SEO Ready</span>
-              <span class="text-emerald-400 font-semibold">Deployed</span>
+            <div class="flex items-center gap-4">
+              <a href="https://github.com/fabiolcaka" target="_blank" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
+                <span>View Repository</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
             </div>
           </div>
         </div>
 
-        <!-- Project 3: Clothing Brand Website -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-6 project-card" data-category="client">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Client Production</span>
-              <span class="text-xs text-zinc-500">E-Commerce Ready</span>
+        <!-- Project 3: Clothing Brand Digital Experience -->
+        <div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between" data-category="commercial">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">Brand / E-Commerce</span>
+              <span class="text-xs font-mono text-slate-500">Frontend & Branding</span>
             </div>
-            <h4 class="text-xl font-bold text-white">Clothing Brand Digital Experience</h4>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              Bespoke e-commerce-ready web showcase engineered for an emerging apparel brand. Features custom product showcases, interactive styling catalogs, and an elevated typographic visual identity crafted from scratch.
+            <h4 class="text-2xl font-bold text-white mb-2">Clothing Brand Digital Platform</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              E-commerce-ready web experience built for an independent apparel brand. Features custom lookbook presentations, product category discovery layouts, brand storytelling, and interactive UI micro-animations built from scratch.
             </p>
           </div>
-          <div class="space-y-4">
-            <div class="flex flex-wrap gap-2">
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">HTML5</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">CSS3</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">JavaScript</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Brand Identity</span>
+          <div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/10 mb-6">
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Web Design</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Brand Identity</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Product Showcases</span>
             </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
-              <span class="font-mono">Modular Catalog Design</span>
-              <span class="text-emerald-400 font-semibold">Production</span>
+            <div class="flex items-center gap-4">
+              <a href="https://github.com/fabiolcaka" target="_blank" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
+                <span>View Details</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
             </div>
           </div>
         </div>
 
-        <!-- Project 4: Score.4 Game -->
-        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-6 project-card" data-category="systems">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-violet-500/10 text-violet-400 border border-violet-500/20">Game Engine</span>
-              <span class="text-xs text-zinc-500">Algorithms</span>
+        <!-- Project 4: Score.4 Connect-Four Engine -->
+        <div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between" data-category="systems">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">Game Logic / Algorithms</span>
+              <span class="text-xs font-mono text-slate-500">Java Core</span>
             </div>
-            <h4 class="text-xl font-bold text-white">Score.4 — Interactive Game Engine</h4>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              A fully functional interactive Connect-4 style game highlighting OOP paradigms and real-time state evaluation. Implements multidirectional algorithmic checks (vertical, horizontal, diagonal) over a dynamic board matrix.
+            <h4 class="text-2xl font-bold text-white mb-2">Score.4 — Connect Four Game</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              A fully featured interactive Connect-4 game engine demonstrating strict Object-Oriented Programming (OOP) principles. Incorporates 2D array state evaluation, diagonal/horizontal win detection algorithms, turn validation, and modular terminal gameplay loops.
             </p>
           </div>
-          <div class="space-y-4">
-            <div class="flex flex-wrap gap-2">
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Java</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">OOP</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">Matrix Logic</span>
-              <span class="tag-badge text-xs px-2.5 py-1 rounded text-zinc-300">CLI Interface</span>
+          <div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/10 mb-6">
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Java</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">2D Arrays</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">Algorithms</span>
+              <span class="text-xs font-mono text-slate-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">OOP Design</span>
             </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
-              <span class="font-mono">Zero-Dependency Java Logic</span>
-              <span class="text-violet-400 font-semibold">Engineered</span>
+            <div class="flex items-center gap-4">
+              <a href="https://github.com/fabiolcaka" target="_blank" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
+                <span>View Source Code</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
             </div>
           </div>
         </div>
 
       </div>
-    </section>
 
-    <!-- Technical Skills / Arsenal -->
-    <section id="skills" class="space-y-8">
-      <div>
-        <h2 class="text-xs uppercase tracking-widest font-mono text-blue-400 font-semibold">Arsenal</h2>
-        <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">Technical Skills & Toolkit</h3>
-      </div>
+    </div>
+  </section>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 font-mono">Languages</h4>
-          <ul class="text-sm text-zinc-400 space-y-2">
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>Java (OOP & Swing)</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>Python</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>JavaScript / ES6</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>SQL</li>
-          </ul>
-        </div>
+  <!-- AI AGENCY FEATURE SECTION -->
+  <section id="agency" class="py-20 px-6 relative z-10 border-t border-white/5 bg-gradient-to-b from-[#0c0f17] to-[#090b10]">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="relative overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-slate-900/60 to-slate-950 p-8 sm:p-12">
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-purple-600/20 blur-3xl pointer-events-none"></div>
 
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 font-mono">Data & Back-End</h4>
-          <ul class="text-sm text-zinc-400 space-y-2">
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>MySQL & Workbench</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Relational Schema Design</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>JDBC Connectivity</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>CRUD Architecture</li>
-          </ul>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 font-mono">Frontend & UI</h4>
-          <ul class="text-sm text-zinc-400 space-y-2">
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>HTML5 Semantic Markup</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>CSS3 (Flexbox, Grid)</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>Tailwind CSS</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>Responsive Design</li>
-          </ul>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl space-y-3">
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 font-mono">Dev Tools</h4>
-          <ul class="text-sm text-zinc-400 space-y-2">
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Git & GitHub</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>VS Code & Eclipse</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Linux Environment</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Debugging & Profiling</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Experience & Education Timeline -->
-    <section id="experience" class="space-y-8">
-      <div>
-        <h2 class="text-xs uppercase tracking-widest font-mono text-blue-400 font-semibold">Background</h2>
-        <h3 class="text-2xl sm:text-3xl font-bold text-white mt-1">Experience & Education</h3>
-      </div>
-
-      <div class="space-y-6 border-l border-white/10 pl-6 ml-2">
-        <!-- University -->
-        <div class="relative space-y-2">
-          <div class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-blue-500 border-4 border-[#090a0f]"></div>
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <h4 class="text-base font-bold text-white">University of Essex</h4>
-            <span class="text-xs font-mono text-zinc-400">Expected 2028 (Currently Year 2)</span>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-mono font-medium">
+              <span>Commercial Venture & Automations</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl font-extrabold text-white">AI Automation & Voice Solutions</h3>
+            <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl">
+              Engineering autonomous AI Voice Calling Systems, customized lead capture chatbots, and automated operations for commercial enterprises. Bridging backend integrations with intelligent conversational agents.
+            </p>
+            <div class="flex flex-wrap gap-3 pt-2 text-xs font-mono text-slate-300">
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">Voice AI Agents</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">Appointment Schedulers</span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10">CRM Integrations</span>
+            </div>
           </div>
-          <div class="text-sm text-blue-400 font-medium">BSc (Hons) Computing (Software Development)</div>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Focused on Object-Oriented design, Relational Database management systems, algorithms, software life cycles, and web technologies.
-          </p>
-        </div>
 
-        <!-- Freelance -->
-        <div class="relative space-y-2 pt-4">
-          <div class="absolute -left-[31px] top-5.5 w-3 h-3 rounded-full bg-emerald-500 border-4 border-[#090a0f]"></div>
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <h4 class="text-base font-bold text-white">Freelance Web Developer</h4>
-            <span class="text-xs font-mono text-zinc-400">2023 – Present</span>
-          </div>
-          <div class="text-sm text-emerald-400 font-medium">Independent Contractor • Athens, Greece</div>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Delivering tailor-made websites for independent businesses and commercial operations. Managing client consultations, requirement specifications, UI architecture, and deployment.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="glass-card rounded-3xl p-8 sm:p-12 space-y-8">
-      <div class="max-w-2xl space-y-3">
-        <h2 class="text-xs uppercase tracking-widest font-mono text-blue-400 font-semibold">Connect</h2>
-        <h3 class="text-3xl font-bold text-white">Let’s build something together.</h3>
-        <p class="text-zinc-400 text-sm leading-relaxed">
-          I am currently open to internship opportunities, junior software roles, and select freelance web development projects.
-        </p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 gap-6 pt-4">
-        <!-- Direct Email Card -->
-        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
-          <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider">Direct Inbox</div>
-          <div class="font-mono text-base font-semibold text-white break-all">fabjolcaka462@gmail.com</div>
-          <button onclick="copyEmail()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold tracking-wide transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-            <span>Copy Address</span>
-          </button>
-        </div>
-
-        <!-- Social Networks Card -->
-        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
-          <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider">Professional Profiles</div>
-          <div class="flex flex-col gap-2.5">
-            <a href="https://github.com/fabiolcaka" target="_blank" rel="noreferrer" class="flex items-center justify-between text-sm text-zinc-300 hover:text-white transition group">
-              <span class="flex items-center gap-2">GitHub <span class="font-mono text-xs text-zinc-500">/fabiolcaka</span></span>
-              <span class="group-hover:translate-x-1 transition-transform">→</span>
+          <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4 justify-center">
+            <a href="#contact" class="px-6 py-3.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-sm transition-all text-center shadow-lg shadow-purple-600/20 hover:scale-[1.02]">
+              Inquire for Collaboration
             </a>
-            <a href="https://www.linkedin.com/in/fabjolcaka/" target="_blank" rel="noreferrer" class="flex items-center justify-between text-sm text-zinc-300 hover:text-white transition group">
-              <span class="flex items-center gap-2">LinkedIn <span class="font-mono text-xs text-zinc-500">/in/fabjolcaka</span></span>
-              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <a href="https://linkedin.com/in/fabjolcaka" target="_blank" class="px-6 py-3.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-sm transition-all text-center">
+              Connect on LinkedIn
             </a>
           </div>
         </div>
+
       </div>
-    </section>
 
-  </main>
+    </div>
+  </section>
 
-  <!-- Footer -->
-  <footer class="border-t border-white/5 py-8 text-center text-xs text-zinc-600 font-mono">
-    Designed & Engineered by Fabjol Caka · Athens, Greece
+  <!-- TECHNICAL SKILLS SECTION -->
+  <section id="skills" class="py-20 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="mb-12">
+        <h2 class="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase mb-2">// Technical Capabilities</h2>
+        <h3 class="text-3xl font-extrabold text-white">Skills & Technologies</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Stack Box 1 -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-mono font-bold text-sm">
+            01
+          </div>
+          <h4 class="text-base font-bold text-white">Languages</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>Java (Core & OOP)</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>Python</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>JavaScript / TypeScript</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>Go (Golang)</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>SQL</li>
+          </ul>
+        </div>
+
+        <!-- Stack Box 2 -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-mono font-bold text-sm">
+            02
+          </div>
+          <h4 class="text-base font-bold text-white">Web & UI</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>HTML5 & Semantic Web</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>CSS3 & Tailwind CSS</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>Next.js / React</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>Responsive Layouts</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>UI Prototyping</li>
+          </ul>
+        </div>
+
+        <!-- Stack Box 3 -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-mono font-bold text-sm">
+            03
+          </div>
+          <h4 class="text-base font-bold text-white">Data & Systems</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>MySQL Relational Design</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>PostgreSQL</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Prisma ORM</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>RESTful API Design</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>CRUD Architectures</li>
+          </ul>
+        </div>
+
+        <!-- Stack Box 4 -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-mono font-bold text-sm">
+            04
+          </div>
+          <h4 class="text-base font-bold text-white">Dev Tools & OS</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Git & GitHub</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>VS Code & Eclipse IDE</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>macOS & Linux Terminal</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Vercel & Netlify Deploy</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Digital Systems / VHDL</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT & FOOTER SECTION -->
+  <footer id="contact" class="py-24 px-6 relative z-10 border-t border-white/10 bg-[#07090d]">
+    <div class="max-w-4xl mx-auto text-center space-y-8">
+      
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">
+        Let's Connect
+      </div>
+
+      <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+        Ready to collaborate or <br class="hidden sm:block"/>
+        build something exceptional?
+      </h3>
+
+      <p class="text-slate-400 text-base max-w-lg mx-auto leading-relaxed">
+        I am always open to discussing software engineering roles, full-stack projects, or automation opportunities.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <a href="mailto:fabjolcaka462@gmail.com" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm transition-all shadow-xl shadow-cyan-500/20 hover:scale-[1.02]">
+          Send an Email Directly
+        </a>
+        <a href="https://www.linkedin.com/in/fabjolcaka/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm transition-all flex items-center justify-center gap-2">
+          <span>Message on LinkedIn</span>
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+      </div>
+
+      <!-- Bottom Credits -->
+      <div class="pt-16 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-mono">
+        <p>© 2026 Fabjol Caka. All rights reserved.</p>
+        <p>Built with Precision, Tailwind & Clean Architecture.</p>
+      </div>
+
+    </div>
   </footer>
 
-  <!-- Script for Filters and Toast -->
+  <!-- Toast Notification element for copy-to-clipboard -->
+  <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/30 text-cyan-300 text-xs font-mono shadow-2xl flex items-center gap-2.5 toast-anim">
+    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+    </svg>
+    <span>Email copied to clipboard!</span>
+  </div>
+
+  <!-- INTERACTIVE SCRIPTS -->
   <script>
-    // Copy to clipboard with fallback
-    function copyEmail() {
+    // Mobile navigation toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu on clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Copy Email to clipboard with toast notification
+    function copyEmailToClipboard() {
       const email = 'fabjolcaka462@gmail.com';
-      const dummy = document.createElement('textarea');
-      dummy.value = email;
-      document.body.appendChild(dummy);
-      dummy.select();
-      try {
-        document.execCommand('copy');
-        showToast('Email copied: ' + email);
-      } catch (err) {
-        showToast('fabjolcaka462@gmail.com');
-      }
-      document.body.removeChild(dummy);
+      navigator.clipboard.writeText(email).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.remove('hidden');
+        setTimeout(() => {
+          toast.classList.add('hidden');
+        }, 3000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
     }
 
-    // Toast Notification
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-message');
-      toastMsg.textContent = msg;
-      toast.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
-      toast.classList.add('translate-y-0', 'opacity-100');
-      
-      setTimeout(() => {
-        toast.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
-        toast.classList.remove('translate-y-0', 'opacity-100');
-      }, 2600);
-    }
-
-    // Filter projects
-    function filterProjects(cat) {
+    // Projects Filtering Logic
+    function filterProjects(category) {
       const cards = document.querySelectorAll('.project-card');
-      const buttons = ['all', 'client', 'systems'];
+      const buttons = {
+        all: document.getElementById('filter-all'),
+        commercial: document.getElementById('filter-commercial'),
+        systems: document.getElementById('filter-systems')
+      };
 
-      buttons.forEach(b => {
-        const btn = document.getElementById('btn-' + b);
-        if (b === cat) {
-          btn.className = 'px-3 py-1.5 rounded-lg bg-white/10 text-white';
-        } else {
-          btn.className = 'px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white';
-        }
+      // Reset button styles
+      Object.values(buttons).forEach(btn => {
+        btn.className = 'px-4 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all';
       });
 
+      // Active button style
+      if (buttons[category]) {
+        buttons[category].className = 'px-4 py-2 text-xs font-semibold rounded-lg bg-cyan-500 text-white transition-all';
+      }
+
+      // Show/Hide project cards
       cards.forEach(card => {
-        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
           card.style.display = 'flex';
         } else {
           card.style.display = 'none';
